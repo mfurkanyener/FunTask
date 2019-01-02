@@ -1,0 +1,3 @@
+rootProject.name = 'FunTask'
+
+include ':app'
