@@ -80,7 +80,7 @@ Welcome
 John Wick
 ```
 
-### Task 4: (VERY HUGE BONUS)
+### BONUS: I Know Places. (VERY HUGE BONUS)
 
 - FunTask team thinks to add a new feature. The new feature is a picker that allows users to select a store or a place near. For example, If the user in Taksim, the picker will bring the store names around Taksim and the user will be able to select it then an alert will pop-up to show the selected place.
 
