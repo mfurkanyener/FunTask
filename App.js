@@ -20,6 +20,7 @@ export default class App extends Component{
     console.disableYellowBox = true;
   }
 
+
   componentDidMount() {
     AsyncStorage.getItem("token").then(token => {
       if (token) {
@@ -55,6 +56,7 @@ export default class App extends Component{
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {
