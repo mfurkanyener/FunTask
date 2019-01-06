@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {Alert, StyleSheet, Text, TouchableOpacity, View, AsyncStorage } from 'react-native';
+import {Alert, AsyncStorage, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {FetchData} from '../utils/Utils'
-import {CLIENT_KEY} from "../config/config";
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 
 /*
   API usage :  https://playground-test-api.herokuapp.com/api/candidate/:id
@@ -13,28 +12,23 @@ export default class Candidate extends Component {
         super(props);
         this.state = {
             token: null,
-            candidateName:'',
-            candidateId:'',
-            userLocation:[
-            ],
-            location:{}
-        };
+            candidateName: '',
+            candidateId: '',
+            location: null
+        }
         this.onLocationSelect = this.onLocationSelect.bind(this)
     }
 
     componentDidMount() {
-
-        console.log('this.props.token', this.props.token)
-        FetchData('https://playground-test-api.herokuapp.com/api/candidate/5c3091bba7e5240017caa570').then((response)=>{
-            console.log('response',response)
+        FetchData('https://playground-test-api.herokuapp.com/api/candidate/5c3091bba7e5240017caa570').then((response) => {
+            console.log('response', response)
             this.setState({
-                candidateName:response.candidate.candidateName,
-                candidateId:response.candidate.candidateId,
+                candidateName: response.candidate.candidateName,
+                candidateId: response.candidate.candidateId,
             })
         })
 
-        AsyncStorage.getItem('location').then((location)=>{
-            console.log('AsyncStorageAsyncStorageAsyncStorage',location)
+        AsyncStorage.getItem('location').then((location) => {
             this.setState({location: JSON.parse(location)})
         })
     }
@@ -45,22 +39,25 @@ export default class Candidate extends Component {
 
     onLocationSelect(data) {
         AsyncStorage.setItem('location', JSON.stringify(data))
-        this.setState({location:data})
+        this.setState({location: data})
     }
 
 
     render() {
+        const location = this.state.location  ? this.state.location.description : 'Please select location'
+
         return (
             <View style={styles.container}>
                 <Text styles={styles.welcome}>Welcome</Text>
                 <Text styles={styles.welcome}>{this.state.candidateName}</Text>
-                <Text styles={styles.welcome}>{"Location: " + this.state.location.hasOwnProperty('description') && this.state.location.description}</Text>
+                <Text
+                    styles={styles.welcome}>{"Location: " + location}</Text>
 
                 <TouchableOpacity onPress={() => this._onPress()} style={styles.actionButton}>
                     <Text style={styles.actionText}>Get My Informations</Text>
                 </TouchableOpacity>
                 <GooglePlacesAutocomplete
-                    placeholder='Adres eklemek için arayın.'
+                    placeholder='Search for location'
                     minLength={2}
                     autoFocus={false}
                     returnKeyType={'search'}
@@ -93,8 +90,7 @@ export default class Candidate extends Component {
 
                     currentLocation={true}
                     nearbyPlacesAPI='GooglePlacesSearch'
-                    GoogleReverseGeocodingQuery={{
-                    }}
+                    GoogleReverseGeocodingQuery={{}}
                     GooglePlacesSearchQuery={{
                         rankby: 'distance',
                         types: 'food'
@@ -114,7 +110,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        paddingTop:30,
+        paddingTop: 30,
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
     },
